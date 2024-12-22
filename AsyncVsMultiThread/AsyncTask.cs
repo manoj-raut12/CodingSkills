@@ -11,13 +11,13 @@ namespace CodingSkills.AsyncVsMultiThread
         public static async Task FirstTaskAsync()
         {
             Console.WriteLine("First Async Method on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
-            await Task.Delay(1000);
+            await Task.Delay(10);
             Console.WriteLine("First Async Method Continuation on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
         }
         public static async Task SecondTaskAsync()
         {
             Console.WriteLine("Second Async Method on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
-            await Task.Delay(1000);
+            await Task.Delay(10);
             Console.WriteLine("Second Async Method Continuation on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
         }
 

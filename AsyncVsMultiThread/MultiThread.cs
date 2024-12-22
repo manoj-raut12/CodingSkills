@@ -10,15 +10,15 @@ namespace CodingSkills.AsyncVsMultiThread
     {
         public void FirstMethod()
         {
-            Console.WriteLine("First Method on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
-            Thread.Sleep(1000);
-            Console.WriteLine("First Method Continuation on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine("First Method on Thread with Id: " + Environment.CurrentManagedThreadId);
+            Thread.Sleep(10);
+            Console.WriteLine("First Method Continuation on Thread with Id: " + Environment.CurrentManagedThreadId);
         }
         public void SecondMethod()
         {
-            Console.WriteLine("Second Method on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
-            Thread.Sleep(1000);
-            Console.WriteLine("Second Method Continuation on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine("Second Method on Thread with Id: " + Environment.CurrentManagedThreadId);
+            Thread.Sleep(10);
+            Console.WriteLine("Second Method Continuation on Thread with Id: " + Environment.CurrentManagedThreadId);
         }
 
         public void ExecuteMultithreading()

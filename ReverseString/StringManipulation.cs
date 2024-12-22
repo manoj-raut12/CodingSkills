@@ -42,6 +42,41 @@ namespace CodingSkills.ReverseString
 
             Console.WriteLine($"Reverse string is {stringBuilder}"); ;
         }
-#endregion
+
+        public void GetReverseStringUsingFun(string inputString)
+        {
+            StringBuilder stringBuilder = new();
+
+            var lstChar = inputString.Reverse().ToList();
+            string reverseString = string.Empty;
+            foreach (var ch in lstChar)
+            {
+                reverseString += ch;
+            }
+            Console.WriteLine($"Reverse string is {reverseString}");
+        }
+
+        public void GetRepeatCharCount()
+        {
+            Console.WriteLine("Enter string to calculate the repeated character");
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            string inputString = Console.ReadLine();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+            Dictionary<char, int> charCounts = new();
+            foreach (char ch in inputString)
+            {
+                if (charCounts.TryGetValue(ch, out int value))
+                    charCounts[ch] = ++value;
+                else
+                    charCounts[ch] = 1;
+            }
+
+            foreach (var item in charCounts)
+            {
+                Console.WriteLine($"{item.Key} {item.Value}");
+            }
+        }
+        #endregion
     }
 }
