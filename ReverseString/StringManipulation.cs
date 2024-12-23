@@ -77,6 +77,28 @@ namespace CodingSkills.ReverseString
                 Console.WriteLine($"{item.Key} {item.Value}");
             }
         }
+
+        public void PairRepeatCharacter()
+        {
+            Console.WriteLine("Enter string to pair characters");
+            string inputString = Console.ReadLine();
+            Dictionary<char, int> charCounts = new();
+            foreach (Char ch in inputString)
+            {
+                //Dictonary for storing thhe character and its count
+                if (!charCounts.TryGetValue(ch, out int value))
+                    charCounts[ch] = 1;
+                else
+                    charCounts[ch] = ++value;
+            }
+
+            foreach (var ch in charCounts)
+            {
+
+                int totalPair = ch.Value / 2; //divided by 2 as we need to calculate the pair.
+                Console.WriteLine($"Total pairs for character {ch.Key} - {totalPair}");
+            }
+        }
         #endregion
     }
 }

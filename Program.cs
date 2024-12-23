@@ -33,17 +33,20 @@ Console.WriteLine("Hello, World!");
 //Console.ReadKey();
 //#endregion
 
-//#region string Manipulation
-//StringManipulation stringManipulation = new();
-//stringManipulation.GetReverseString("Hello");
-//Console.ReadKey();
+#region string Manipulation
+StringManipulation stringManipulation = new();
+stringManipulation.GetReverseString("Hello");
+Console.ReadKey();
 
-//stringManipulation.GetReverseStringStatement("Good morning Manoj");
-//stringManipulation.GetReverseStringUsingFun("Good morning Manoj");
-//stringManipulation.GetRepeatCharCount();
-//Console.ReadKey();
+stringManipulation.GetReverseStringStatement("Good morning Manoj");
+stringManipulation.GetReverseStringUsingFun("Good morning Manoj");
+stringManipulation.GetRepeatCharCount();
 
-//#endregion
+stringManipulation.PairRepeatCharacter();
+
+Console.ReadKey();
+
+#endregion
 
 #region ParkingBill
 Console.WriteLine("Calculate parkingbill");
@@ -55,6 +58,7 @@ Console.WriteLine("Total ParkingBill is " + parkingBill);
 //#region Palidrome
 //Palidrome palidrome = new();
 //palidrome.CheckPalidrome();
+//#endregion
 //#endregion
 
 //#region Swapping Number
