@@ -35,11 +35,14 @@ Console.WriteLine("Hello, World!");
 
 #region string Manipulation
 StringManipulation stringManipulation = new();
-stringManipulation.GetReverseString("Hello");
+stringManipulation.LongestWord();
+stringManipulation.LongestWordWithoutSplit();
+var longestString= stringManipulation.LongestWordWithoutSplitAndLen();
+stringManipulation.GetReverseString("Welcome to C#");
 Console.ReadKey();
 
 stringManipulation.GetReverseStringStatement("Good morning Manoj");
-stringManipulation.GetReverseStringUsingFun("Good morning Manoj");
+stringManipulation.GetReverseStringUsingLinq("Good morning Manoj");
 stringManipulation.GetRepeatCharCount();
 
 stringManipulation.PairRepeatCharacter();
@@ -55,16 +58,15 @@ int parkingBill = ParkingBill.CalculateParkingBill("00:31", "22:31");
 Console.WriteLine("Total ParkingBill is " + parkingBill);
 #endregion
 
-//#region Palidrome
-//Palidrome palidrome = new();
-//palidrome.CheckPalidrome();
-//#endregion
-//#endregion
+#region Palidrome
+Palidrome palidrome = new();
+palidrome.CheckPalidrome();
+#endregion
 
-//#region Swapping Number
-//SwapNumber number = new SwapNumber();
-//number.Swap();
-//#endregion
+#region Swapping Number
+SwapNumber number = new SwapNumber();
+number.Swap();
+#endregion
 
 #region Async Vs Mutlithreading
 

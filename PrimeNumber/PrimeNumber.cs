@@ -21,8 +21,13 @@ namespace CodingSkills.PrimeNumber
         public void CheckPrimeNumber()
         {
             Console.WriteLine("Enter number to check prime");
-            int number = int.Parse(s: Console.ReadLine());
-            Console.WriteLine($"Is Number prime : {IsPrimeNumber(number)}");
+            if (int.TryParse(s: Console.ReadLine(), out int number))
+            {
+                Console.WriteLine($"Number is prime: {IsPrimeNumber(number)}");
+            }
+            else
+                Console.WriteLine("Number is not prime");
+
         }
     }
 }
