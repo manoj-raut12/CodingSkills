@@ -18,7 +18,7 @@
         /// <summary>
         /// Get the secondHighest number from list without using any in built mathods
         /// </summary>
-        public void SecondHighestNumberWithoutFun()
+        public void SecondHighestNumberWithoutLinq()
         {
             List<int> numbers = new() { 50, 1, 45,75,2, 6,99, 57, 48 };
 
@@ -40,7 +40,7 @@
             Console.WriteLine($"Second highest number {secondHighestNumber}");
         }
 
-        public void SecondHighestNumberWithFun()
+        public void SecondHighestNumberWithLinq()
         {
             List<int> numbers = [50, 1, 45, 75, 2, 6, 99, 57, 48];
             var secondHighestNumber = numbers.Where(x => x != numbers.Max())
