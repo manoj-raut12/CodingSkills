@@ -1,0 +1,3 @@
+- This repository is dedicated to general logic that can be implemented in various ways.
+- Several programs are commonly asked during interviews.
+- Suggestions are always welcome. Feel free to start a discussion.
