@@ -5,6 +5,7 @@ using CodingSkills.Fibonacci;
 using CodingSkills.Middleware;
 using CodingSkills.Palidrome;
 using CodingSkills.ParkingBill;
+using CodingSkills.Polymorphism;
 using CodingSkills.PrimeNumber;
 using CodingSkills.ReverseString;
 using CodingSkills.SwappingNumber;
@@ -12,7 +13,8 @@ using Microsoft.AspNetCore.Builder;
 
 Console.WriteLine("Hello, World!");
 
-
+ClsMath math = new();
+int sum=  math.Sum(10, 20);
 //#region PrimeNumber
 //PrimeNumber primeNumber = new PrimeNumber();
 //primeNumber.CheckPrimeNumber();

@@ -27,22 +27,6 @@ namespace CodingSkills.ReverseString
             return result;
         }
 
-        /// <summary>
-        /// Reverse string using Foreach 
-        /// </summary>
-        /// <param name="inputString"></param>
-        /// <returns></returns>
-        private static string ReverseStringUsingForeach(string inputString)
-        {
-            if (string.IsNullOrEmpty(inputString)) return inputString;
-            string result = string.Empty;
-            foreach (char ch in inputString)
-            {
-                result +=ch;
-            }
-            return result;
-        }
-
         public void GetReverseString(string inputString)
         {
             string reverseString = ReverseStringUsingFor(inputString);
@@ -62,11 +46,11 @@ namespace CodingSkills.ReverseString
 
             foreach (string str in list)
             {
-                stringBuilder.Append(ReverseStringUsingForeach(str));
+                stringBuilder.Append(ReverseStringUsingFor(str));
                 stringBuilder.Append(' ');
             }
 
-            Console.WriteLine($"Reverse string is {stringBuilder}"); ;
+            Console.WriteLine($"Reverse string is {stringBuilder}");
         }
 
         /// <summary>
