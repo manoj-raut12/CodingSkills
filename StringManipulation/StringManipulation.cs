@@ -152,32 +152,37 @@ namespace CodingSkills.ReverseString
             int MaxWordLength = 0;
             string currentWord = string.Empty;
             string longestWord = string.Empty;
-
-            for (int i = 0; i <= inputString.Length - 1; i++)
+            if (!string.IsNullOrEmpty(inputString))
             {
-                if (inputString[i] != ' ')
-                {
-                    currentWord += inputString[i];
-                    currentWordLength++;
-                }
 
-                else
+                for (int i = 0; i <= inputString.Length - 1; i++)
                 {
-                    if (currentWordLength > MaxWordLength)
+                    if (inputString[i] != ' ')
                     {
-                        longestWord = currentWord;
-                        MaxWordLength = currentWordLength;
+                        currentWord += inputString[i];
+                        currentWordLength++;
                     }
-                    currentWord = "";
-                    currentWordLength = 0;
+
+                    else
+                    {
+                        if (currentWordLength > MaxWordLength)
+                        {
+                            longestWord = currentWord;
+                            MaxWordLength = currentWordLength;
+                        }
+                        currentWord = "";
+                        currentWordLength = 0;
+                    }
+
+                }
+                if (currentWordLength > MaxWordLength) //condition for last word check
+                {
+                    longestWord = currentWord;
                 }
 
+                Console.WriteLine($"longest word is {longestWord}");
             }
-            if (currentWordLength > MaxWordLength) //condition for last word check
-            {
-                longestWord = currentWord;
-            }
-            Console.WriteLine($"longest word is {longestWord}");
+            Console.WriteLine($"Input string is empty");
         }
         /// <summary>
         /// Get the longest word from statement without using split and length

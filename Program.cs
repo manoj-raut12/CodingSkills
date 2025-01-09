@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CodingSkills.ArithmaticOperations;
 using CodingSkills.AsyncVsMultiThread;
+using CodingSkills.Delegate;
 using CodingSkills.Fibonacci;
 using CodingSkills.Middleware;
 using CodingSkills.Palidrome;
@@ -13,8 +14,15 @@ using Microsoft.AspNetCore.Builder;
 
 Console.WriteLine("Hello, World!");
 
+DelegateExample delegateExample = new DelegateExample();
+delegateExample.Delegatesample();
 ClsMath math = new();
 int sum=  math.Sum(10, 20);
+
+SequentialVsParallelAsync sequentialVsParallel = new();
+sequentialVsParallel.ExecuteParalleTask();
+Console.WriteLine();
+sequentialVsParallel.ExecuteAsyncTask();
 //#region PrimeNumber
 //PrimeNumber primeNumber = new PrimeNumber();
 //primeNumber.CheckPrimeNumber();
@@ -76,15 +84,15 @@ await AsyncTask.ExecuteAsyncFunctions();
 Console.WriteLine();
 
 
-MultiThread multithreading = new();
-multithreading.ExecuteMultithreading();
+//MultiThread multithreading = new();
+//multithreading.ExecuteMultithreading();
 
-Console.WriteLine();
+//Console.WriteLine();
 
-SequentialVsParallelAsync sequentialVsParallel = new();
-sequentialVsParallel.ExecuteParalleTask();
+SequentialVsParallelAsync sequentialVsParallel1 = new();
+sequentialVsParallel1.ExecuteParalleTask();
 Console.WriteLine();
-sequentialVsParallel.ExecuteAsyncTask();
+sequentialVsParallel1.ExecuteAsyncTask();
 
 #endregion  
 

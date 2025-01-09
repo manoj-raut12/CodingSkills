@@ -9,7 +9,7 @@ namespace CodingSkills.PrimeNumber
     public class PrimeNumber
     {
          // 2, 3, 5, 7, 11....
-        private bool IsPrimeNumber(int number)
+        private static bool IsPrimeNumber(int number)
         {
             for( int i=2; i*i<=number; i ++)
             {
@@ -27,7 +27,6 @@ namespace CodingSkills.PrimeNumber
             }
             else
                 Console.WriteLine("Number is not prime");
-
         }
     }
 }
