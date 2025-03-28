@@ -1,0 +1,156 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: itinerary-kafka-consumer-containernative
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: itinerary-kafka-consumer-containernative
+      instance: app
+  template:
+    metadata:
+      name: app
+      labels:
+        app: itinerary-kafka-consumer-containernative
+        instance: app
+      annotations:
+        ad.datadoghq.com/api.check_names: '["openmetrics"]'
+        ad.datadoghq.com/api.init_configs: '[{}]'
+        ad.datadoghq.com/api.instances: '[{"prometheus_url": "http://%%host%%:9090/actuator/prometheus","namespace": "default","metrics": ["*"]}]'
+    spec:
+      hostname: app
+      # imagePullSecrets:
+        # - name: registrypullsecret
+      containers:
+        - name: itinerary-kafka-consumer-containernative
+          image: containernativekafka:retina
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: "connectionstrings__dbcontext"
+            value: "data Source=127.0.0.1,53193; Initial Catalog=sdbazweEquipmentEventItinerarydev1;User Id=sa;Password=P@ssw0rd1;MultipleActiveResultSets=false;Persist Security Info=False;Encrypt=True;TrustServerCertificate=True;"            
+          # - name: "Serilog__Properties__Environment"
+            # value: "{{Environment}}"
+          # - name: "Serilog__MinimumLevel__Default"
+            # value: "{{LogLevel}}"
+            # # TODO: ENABLE BELOW LATER
+          # - name: "Serilog__Filters__0__Name"
+            # value: "ByIncludingOnly"
+          # - name: "Serilog__Filters__0__Args__expression"
+            # value: "{{LogFilter}}"
+          # - name: "Serilog__Using__1"
+            # value: "Serilog.Expressions"
+          # # TODO: NEED TO UPDATE ONCE RAIN PUSHES MULTIPRODUCER CONFIGURATION
+          # - name: "CometAzure__EventHubProducer__ConnectionString"
+            # value: "{{EquipmentEventItineraryGenerateProducerEHConnection}}"
+          - name: "CometAzure__EventHubProducer__Name"
+            value: "evh-app-itinerary"
+          - name: "CometAzure__EventHubProducer__ConnectionString"
+            value: "Endpoint=sb://evhnsazweeqitindev.servicebus.windows.net/;SharedAccessKeyName=eqitinerary-log-producer;SharedAccessKey=jQzay/y/8EnJXCcM+U1aTmQ6DV/nDv9IQa2BnSz/A6o=;EntityPath=evh-app-itinerary"            
+          - name: "CometKafka__ValueTypeNamespace"
+            value: "com.maersk.orderhandling.equipmenteventpayload.v4.EquipmentEventPayload"
+          - name: "CometKafka__ConsumerConfiguration__BootstrapServer"
+            value: "pkc-lq8gm.westeurope.azure.confluent.cloud:9092"
+          - name: "CometKafka__ConsumerConfiguration__RetinaBootstrapServer"
+            value: "emp-kafka-shared-prodwe-retina.maersk-digital.net:443"
+          - name: "CometKafka__ConsumerConfiguration__Platform"
+            value: "RETINA"
+          - name: "CometKafka__ConsumerConfiguration__SslCaLocation"
+            value: "ca-prod-retina.pem"                          
+          - name: "CometKafka__ConsumerConfiguration__SslKeystoreLocation"
+            value: "sca1-prod-retina.p12"                                      
+          - name: "CometKafka__ConsumerConfiguration__SslKeystorePassword"
+            value: "MTI3NDNiNDY5OTM5NGI5ZDkxMTk1ZGQ3"                                      
+          - name: "CometKafka__ConsumerConfiguration__OffsetResetMode"
+            value: "NONE"
+          - name: "CometKafka__ConsumerConfiguration__OffsetResetDatetime"
+            value: "2024-04-15 00:00:00 +0000"
+          - name: "CometKafka__ConsumerConfiguration__TopicName"
+            value: "MSK.booking.equipment.topic.internal.any.v5"
+          - name: "CometKafka__ConsumerConfiguration__TopicUserName"
+            value: "prod.comet-comet.v1"
+          - name: "CometKafka__ConsumerConfiguration__TopicSecretKey"
+            value: "BZrpLU1haDXYNP1VLXgJdigXyfLh8qC5"
+          - name: "CometKafka__ConsumerConfiguration__GroupId"
+            value: "msk.gcssequipmentprod.cometitinerarydev.consumergroup.v1"
+          - name: "CometKafka__ConsumerConfiguration__SchemaRegistryUrl"
+            value: "https://emp-prod-sr.retina.maersk-digital.net:443"
+          - name: "ConsumerName"
+            value: "ContainerNative"
+          # - name: "CometKafka__ConsumerConfiguration__SchemaRegistryUserName"
+            # value: "I2WOGC3S6UQMR3KT"
+          # - name: "CometKafka__ConsumerConfiguration__SchemaRegistrySecretKey"
+            # value: "vk4Th6eSdHoSVhdagDMtQVnqbkWAFCUdoNGcrylSmQMP9uYZwPVIKJy5zNFY5HDk"
+          - name: "DD_ENV"
+            value: COMET-LOCAL
+          - name: "DD_SERVICE"
+            value: itinerary-kafka-consumer-containernative
+          - name: "DD_VERSION"
+            value: "1.0.0"
+          - name: "DD_TRACE_ROUTE_TEMPLATE_RESOURCE_NAMES_ENABLED"
+            value: "true"
+          - name: "DD_RUNTIME_METRICS_ENABLED"
+            value: "true"
+          - name: DD_PROPAGATION_STYLE_INJECT
+            value: Datadog,B3
+          - name: DD_PROPAGATION_STYLE_EXTRACT
+            value: Datadog,B3
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_TAGS
+            value: "kube_namespace:default"
+          - name: DATADOG_ENDPOINT
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          ports:
+          - name: app-port
+            containerPort: 1200
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 8877
+            runAsGroup: 8877
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: app-port
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: app-port
+            initialDelaySeconds: 30
+            periodSeconds: 60 # 1 minute
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "800m"

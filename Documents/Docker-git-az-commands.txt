@@ -1,0 +1,95 @@
+== Get pods with filter string pattern
+
+kubectl.exe get pods -n comet-preprod -w | select-string -pattern itinerary
+
+kubectl.exe get pods -n comet-prod | select-string -pattern itinerary
+
+
+
+==Switch context ======
+
+az aks get-credentials --resource-group <resource-group-name> --subscription "<subscription name>" --name <namespace name> --overwrite-existing
+
+
+kubectl config use-context core-prod-west-1
+
+kubectl config use-context core-dev-west-1
+
+
+======Steps to deploy changes on kubernetes.==============
+
+ 1. kubectl.exe get namespace
+ 2. kubectl.exe apply -f .\mssql-dev.yml
+ 
+ az aks get-credentials --resource-group <resource group name> --subscription "<subscriptin name>" --name <namespace name > --overwrite-existing
+ 
+ 
+# Build the image 
+ docker build -t <tag name> -f <Docker file path> source\
+
+ e.g. docker build -t equipmenteventsitenary-processor:dev7 -f source\Processor\Nucleus.Comet.EquipmentEventItinerary.ProcessorApp\Dockerfile source\
+ 
+# to get pods
+ kubectl.exe get pods
+
+# apply yml changes to Image
+ kubectl.exe apply -f .\processor.yml
+#. command to check logs
+ kubectl.exe logs <container name> --follow
+ 
+# Delete or stop pods
+  kubectl.exe delete -f .\consumer.yml
+  
+# scale down pods 
+ 	kubectl.exe scale deploy <deployment name> [-n <namespace name>] --replicas=0 
+
+e.g.   kubectl.exe scale deploy itinerary-azure-consumer --replicas=0 
+  	kubectl.exe scale deploy equipment-event-itinerary-consumer -n comet-dev --replicas=0
+ 
+#scaling up 
+ kubectl.exe scale deploy itinerary-consumer --replicas=4
+kubectl.exe scale deployment itinerary-azure-consumer --replicas=4 -n comet-dev
+ 
+ ===========
+  # clear old containers and ununsed images.
+  
+  docker system prune -a --volumes
+ 
+ # Running on comet-dev namespace.
+  kubectl.exe get pods -n comet-dev
+  
+  kubectl.exe logs equipment-event-itinerary-processor-757ff74db5-lh42s --follow -n comet-dev
+  
+  #scale the processor to 0 means it will stop the processor. If we set replicas=1 then it is having single instance.
+   
+   kubectl.exe scale deploy equipment-event-itinerary-processor -n comet-dev --replicas=0
+ ==
+ 
+ 
+==== Create & Push tag in git ===
+1. git tag <tagName> <commitId> --> create new tag
+2. git push origin <tagName>  --> push tags on git
+3. git tag --> This will get all existing tags
+4. git tag --delete tagname  --> delete local tag  
+5. git push --delete origin YOUR_TAG_NAME  --> delete remote tag
+
+====== Set key vault configurations =====
+1. Ask DevOps team to Create service principal
+2. once we have service principal in place create secret to connect with key vault
+az login --service-principal --username <AppId> --password <secret> --tenant <directoryId>
+
+
+3. once you are connected to key vault, you can list down all configurations.
+
+
+az keyvault secret show --vault-name "<key vault name>" --name "<secret key>"
+
+az keyvault secret set --vault-name "<Key vault name>" --name "<secret key>"  --value "<secret values>"
+
+az keyvault secret list  --vault-name "<key-valut-name>"
+
+=== Delete secret from az keyvault ====
+
+az keyvault secret list-deleted
+
+
