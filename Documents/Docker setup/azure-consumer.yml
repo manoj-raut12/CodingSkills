@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: itinerary-azure-consumer
+  namespace: default
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: itinerary-azure-consumer
+      instance: app
+  template:
+    metadata:
+      name: app
+      labels:
+        app: itinerary-azure-consumer
+        instance: app
+      annotations:
+        ad.datadoghq.com/api.check_names: '["openmetrics"]'
+        ad.datadoghq.com/api.init_configs: '[{}]'
+        ad.datadoghq.com/api.instances: '[{"prometheus_url": "http://%%host%%:9090/actuator/prometheus","namespace": "default","metrics": ["*"]}]'
+    spec:
+      hostname: app
+      # imagePullSecrets:
+        # - name: registrypullsecret v3_0_6, masterPP_0_4
+      containers:
+        - name: itinerary-azure-consumer
+          image: itinerary-azure-consumer:split
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: "connectionstrings__dbcontext"
+            value: "<DBConnectionstring>"
+          - name: "CometAzure__EventHubProcessor__ConsumerGroup"
+            value: "$Default"
+          - name: "CometAzure__EventHubProcessor__ConnectionString"
+            value: "<eventhub connectionstring>"
+          # - name: "Serilog__Properties__Environment"
+            # value: "{{Environment}}"
+          # - name: "Serilog__MinimumLevel__Default"
+            # value: "{{LogLevel}}"
+            # # TODO: ENABLE BELOW LATER
+          # - name: "Serilog__Filters__0__Name"
+            # value: "ByIncludingOnly"
+          # - name: "Serilog__Filters__0__Args__expression"
+            # value: "{{LogFilter}}"
+          # - name: "Serilog__Using__1"
+            # value: "Serilog.Expressions"
+           
+            # # TODO: NEED TO UPDATE ONCE RAIN PUSHES MULTIPRODUCER CONFIGURATION
+            
+          # - name: CometAzure__EventHubProcessor__BlobContainer
+            # value: "{{CheckpointBlobContainer}}"
+          # - name: "ConnectionStrings__DbContext"
+            # value: "{{DbEqItinConnectionString}}"
+          - name: "CometKafka__AvroTypeNamespace"
+            value: "com.maersk.serviceDelivery.comet.containerItinerary.containerItinerary"
+          - name: "CometKafka__ProducerConfiguration__TopicName"
+            value: "MSK.tracking.test.cometItinerary.topic.internal.any.v3"
+          - name: "CometKafka__ProducerConfiguration__TopicUserName"
+            value: "{{Topic-username}}"
+          - name: "CometKafka__ProducerConfiguration__TopicSecretKey"
+            value: "{{Topic-secret-key}}"
+          - name: "CometKafka__ProducerConfiguration__GroupId"
+            value: "MSK.CometItineraryTestPP.COMETITNRTest.consumerGroup.v1"
+          - name: "CometKafka__ProducerConfiguration__SchemaRegistryUrl"
+            value: "{{schema registry URL}}"
+          - name: "CometKafka__ProducerConfiguration__SchemaRegistryUserName"
+            value: "<schema registry URL>"
+          - name: "CometKafka__ProducerConfiguration__SchemaRegistrySecretKey"
+            value: "{{schema-secretkey}}"
+          - name: "DD_ENV"
+            value: COMET-LOCAL
+          - name: "DD_SERVICE"
+            value: itinerary-azure-consumer
+          - name: "DD_VERSION"
+            value: "1.0.0"
+          - name: "DD_TRACE_ROUTE_TEMPLATE_RESOURCE_NAMES_ENABLED"
+            value: "true"
+          - name: "DD_RUNTIME_METRICS_ENABLED"
+            value: "true"
+          - name: DD_PROPAGATION_STYLE_INJECT
+            value: Datadog,B3
+          - name: DD_PROPAGATION_STYLE_EXTRACT
+            value: Datadog,B3
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_TAGS
+            value: "kube_namespace:default"
+          - name: DATADOG_ENDPOINT
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          ports:
+          - name: app-port
+            containerPort: 1200
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 8877
+            runAsGroup: 8877
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: app-port
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: app-port
+            initialDelaySeconds: 30
+            periodSeconds: 60 # 1 minute
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "800m"

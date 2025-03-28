@@ -1,0 +1,153 @@
+C#
+-What is tuples in C#
+- Difference between abstract and interface class
+- Explain SOLID principles and give examples or Relate Dependency Injection with SOLID principles
+- Stack vs heap
+- Init-only properties
+- Multi threading
+- Async/await if we write the multiple await how it will behave?
+- what is mapper in entity framework
+- where to write mapper logic
+- Custom exceptions
+- what is reflection in C#
+- what is Task & thread how they are differ
+- Override and new key word in polymorphism
+- 
+
+.NET Core
+- .NET core pipeline
+- Filters in .NET core
+- managed and unmanaged code in .NET
+- what is the difference between .NET core 3.1 and .NET 6
+- state management in .NET core
+- what is middleware in .NET core
+- What is custom middleware/how to implement
+- What is and how to JWT authentication/OAuth/OAuth2 authentication/Azure AD
+- 
+AService: IService
+BService: IService
+
+How to inject this dependencies (DI Case)
+
+
+LINQ
+-Join in Linq
+-Lazy loading in Linq
+-Write LINQ query to fetch the employee count in department
+
+Web API
+-What is CORS/How to restrict WebAPI outside domain/or region wise/country wise and how to implement
+-What is RESTful API
+-Stateless vs RESTFul API
+-Stateless vs Stateful
+-how to handle exception handling in .net core web api
+-filters in .net core web api
+-What is Minimal API and when to use
+
+Testing
+-API automated testing.(Focus on selenium)
+-xUnit
+
+
+SQL
+- ACID properties
+-SQL Injection
+-difference between SQL datatypes
+-What is tuple in SQL
+-How to remove duplicate records in table in SQL ?
+-how to optimise and improve the performance of query in SQL
+-What is cursor in SQL and when to use
+-What is View, CTE and when to use
+-Difference between SP and functions
+- how to delete child data if we delete parent data (use cascade on Delete)
+
+
+Angular
+-types of form in angular
+-content negotiation, self-facilitating
+-MVVM content negotiation
+-Angular change tracking
+-how to transfer data in angular from component to component
+-how to implement relation between two data models
+-What is interceptor in angular and why to use and how to write
+-What is observables and how to write
+-Lazy loading in angular
+-Angular CLI commands 
+-Angular lifecycle Hook
+
+
+Microservices
+-What is MICROSERVICE architecture
+-How microservices communicate with each others
+-Communicate microservices directly with each other, how you can design it, What all things you should consider for designing microservices.
+Architecture
+- What all aspects you should consider while designing the new microservice base applications
+
+CICD
+-how to create docker image and deploy on azure Kubernetes
+-docker vs Kubernetes
+-Deployment steps using docker and yaml file.
+
+Azure
+-EventHub replication/failover strategy along with event data. How we can implement this? Azure doesn't provide failover for EventHub along with event data.
+
+CDN
+
+- What is CDN and use of it?
+- How to restrict static content on website to be downloaded or share. User is logged on and only static content is shown by user(targeted to specific customers).
+
+
+Team Lead
+- Conflict with senior team member, how you handle the situation.
+- Standard code review practices
+
+Write programs without using LINQ functions
+- Check enter string is palindrome
+- Remove duplicate character from string
+- Reverse statement 
+- Find longest word in statement
+- Check pairs of characters in string
+- Get the count of duplicate character in string 
+
+public void RemoveDuplicateChar()
+{
+   string inputstring = "abcabedf";
+   string outputstring = string.Empty;
+   
+   foreach(char c in inputstring)
+   {
+        if(string.IsNullOrEmpty(outputstring))
+           outputstring = ch;
+	else if(!outputstring.Contains(ch))
+           outputstring += ch; 
+   }
+
+  Console.WriteLie($"Output string is {outputstring}");
+}
+
+========
+Design URL shortening service
+Design a scalable video streaming services like YouTube or Netflix
+Design a messaging platform like WhatsApp or slack 
+Design a real-time ride-sharing service like Uber/Ola
+========
+
+Validation implementation
+WebApi
+
+Rule Engine
+
+Routing
+
+Oops
+Abstract class vs method hiding
+
+========
+
+S ==> Single functionality for each class (Itinerary events, hazardous details, reefer, parties etc.)
+O ==> Open/Closed (For each itinerary type we have separate event generation logic we have extend the functionality of normal event generation logic with few more details like break bulk events generation
+L ==> LSP ensures that a subclass can be used wherever a base class is expected without breaking the application.
+I ==> No client should be forced to depend on methods it does not use. Interface segregation principal , as we have separate the interface for Hazardous /reefer type of containers
+D ==> We are using Dependency injection principal by register the services and inject dependencies in constructor.
+
+

@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:1200
+EXPOSE 1200
+#fixing vuln for https://github.com/Maersk-Global/sdp-comet-equipmentitinerary/security/code-scanning?query=is%3Aopen+pr%3A223
+RUN apt-get update && apt-get install --upgrade libtasn1-6
+FROM sdkimage:v1 as sdk
+FROM base AS final
+COPY --from=sdk /tmp/datadog-dotnet-apm.deb /tmp/datadog-dotnet-apm.deb
+RUN mkdir -p /opt/datadog \
+    && mkdir -p /var/log/datadog \
+    && dpkg -i /tmp/datadog-dotnet-apm.deb \
+    && rm /tmp/datadog-dotnet-apm.deb
+ENV CORECLR_ENABLE_PROFILING=1
+ENV CORECLR_PROFILER={profilerId}
+ENV CORECLR_PROFILER_PATH=/opt/datadog/Datadog.Trace.ClrProfiler.Native.so
+ENV DD_DOTNET_TRACER_HOME=/opt/datadog
+ENV DD_INTEGRATIONS=/opt/datadog/integrations.json
+ENV COMPlus_EnableDiagnostics=0
+RUN addgroup --system --gid 8877 {{groupname}}} \
+    && adduser --system --uid 8877 --ingroup {{groupname}} --shell /bin/sh {{username}}
+USER {{username}}

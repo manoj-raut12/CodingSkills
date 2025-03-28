@@ -1,0 +1,4 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+#fixing vuln for https://github.com/Maersk-Global/sdp-comet-equipmentitinerary/security/code-scanning?query=is%3Aopen+pr%3A223
+RUN apt-get update && apt-get install --upgrade libtasn1-6
+WORKDIR /src
