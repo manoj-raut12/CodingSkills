@@ -1,8 +1,28 @@
+=== Docker hub credential ===
+username : manojraut12
+
+docker build -t registry/oiwebapi:v1 -f <docker file path>
+
+docker tag registry/oiwebapi:v1 <local tag name>
+e.g. docker tag registry/oiwebapi:v1 manojraut12/oiwebapi:v1
+
+docker push manojraut12/oiwebapi:v1
+
+
 == Get pods with filter string pattern
 
 kubectl.exe get pods -n comet-preprod -w | select-string -pattern itinerary
 
 kubectl.exe get pods -n comet-prod | select-string -pattern itinerary
+
+=== print environment variables
+
+kubectl.exe exec podname -- printenv
+
+=== import docker image from docker hub to azure container registry
+first login to azure cli
+>az login
+>az acr import -n myregistry --source docker.io/library/hello-world:latest -t targetrepository:targettag --username <docker username> --password <docker password>
 
 
 
